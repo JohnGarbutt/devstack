@@ -21,13 +21,13 @@ set -o errexit
 set -o xtrace
 
 # This directory
-TOP_DIR=$(cd $(dirname "$0") && pwd)
+BASE_DIR=$(cd $(dirname "$0") && pwd)
 
 # Include onexit commands
-. $TOP_DIR/scripts/on_exit.sh
+. $BASE_DIR/on_exit.sh
 
 # Source params - override xenrc params in your localrc to suite your taste
-source xenrc
+source $BASE_DIR/../../xenrc
 
 #
 # Parameters
@@ -35,8 +35,8 @@ source xenrc
 GUEST_NAME="$1"
 
 # Mount the VDI
-STAGING_DIR=$($TOP_DIR/scripts/manage-vdi open $GUEST_NAME 0 1 | grep -o "/tmp/tmp.[[:alnum:]]*")
-add_on_exit "$TOP_DIR/scripts/manage-vdi close $GUEST_NAME 0 1"
+STAGING_DIR=$($BASE_DIR/manage-vdi open $GUEST_NAME 0 1 | grep -o "/tmp/tmp.[[:alnum:]]*")
+add_on_exit "$BASE_DIR/manage-vdi close $GUEST_NAME 0 1"
 
 # Make sure we have a stage
 if [ ! -d $STAGING_DIR/etc ]; then
@@ -68,7 +68,7 @@ fi
 
 # Copy prepare_guest.sh to VM
 mkdir -p $STAGING_DIR/opt/stack/
-cp $TOP_DIR/prepare_guest.sh $STAGING_DIR/opt/stack/prepare_guest.sh
+cp $BASE_DIR/prepare_guest.sh $STAGING_DIR/opt/stack/prepare_guest.sh
 
 # backup rc.local
 cp $STAGING_DIR/etc/rc.local $STAGING_DIR/etc/rc.local.preparebackup

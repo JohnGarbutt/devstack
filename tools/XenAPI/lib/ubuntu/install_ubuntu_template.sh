@@ -16,7 +16,7 @@ set -o xtrace
 BASE_DIR=$(cd $(dirname "$0") && pwd)
 
 # For default setings see xenrc
-source $BASE_DIR/../xenrc
+source $BASE_DIR/../../xenrc
 
 # Get the params
 preseed_url=$1

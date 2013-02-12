@@ -42,12 +42,12 @@ create_ubuntu_install_template()
     fi
 
     # Update the template
-    $TOP_DIR/scripts/install_ubuntu_template.sh $PRESEED_URL
+    $XENAPI_DIR/lib/ubuntu/install_ubuntu_template.sh $PRESEED_URL
 }
 
 inject_script_to_install_xenserver_tools()
 {
-    lib/ubuntu/prepare_guest_template.sh "$GUEST_NAME"
+    $XENAPI_DIR/lib/ubuntu/prepare_guest_template.sh "$GUEST_NAME"
 }
 
 create_template_from_vm()

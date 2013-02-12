@@ -4,13 +4,13 @@ inject_devstack_into_vm()
 {
     THIS_DIR=$(cd $(dirname "$0") && pwd)
     # TODO...
-    . $THIS_DIR/../xen/scripts/on_exit.sh
+    . $THIS_DIR/lib/ubuntu/on_exit.sh
 
     #
     # Mount the VDI
     #
-    STAGING_DIR=$($TOP_DIR/scripts/manage-vdi open $GUEST_NAME 0 1 | grep -o "/tmp/tmp.[[:alnum:]]*")
-    add_on_exit "$TOP_DIR/scripts/manage-vdi close $GUEST_NAME 0 1"
+    STAGING_DIR=$($THIS_DIR/lib/ubuntu/manage-vdi open $GUEST_NAME 0 1 | grep -o "/tmp/tmp.[[:alnum:]]*")
+    add_on_exit "$THIS_DIR/lib/ubuntu/manage-vdi close $GUEST_NAME 0 1"
 
     # Make sure we have a stage
     if [ ! -d $STAGING_DIR/etc ]; then
@@ -29,11 +29,11 @@ inject_devstack_into_vm()
 
     # Copy over devstack
     rm -f /tmp/devstack.tar
-    cd $TOP_DIR/../../
+    cd $THIS_DIR/../../
     tar --exclude='stage' --exclude='xen/xvas' --exclude='xen/nova' -cvf /tmp/devstack.tar .
     mkdir -p $STAGING_DIR/opt/stack/devstack
     tar xf /tmp/devstack.tar -C $STAGING_DIR/opt/stack/devstack
-    cd $TOP_DIR
+    cd $THIS_DIR
 
     # Run devstack on launch
     cat <<EOF >$STAGING_DIR/etc/rc.local
