@@ -3,8 +3,9 @@
 set -o errexit
 set -o xtrace
 
-source xenrc
-source ../../../stackrc
+XENAPI_DIR=$(cd $(dirname "$0") && pwd)
+source $XENAPI_DIR/xenrc
+source $XENAPI_DIR/../../stackrc
 
 source lib/xenapi_plugins.sh
 install_nova_and_quantum_xenapi_plugins
