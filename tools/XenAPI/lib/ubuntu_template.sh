@@ -33,7 +33,7 @@ create_ubuntu_install_template()
             HTTP_SERVER_LOCATION="/var/www/html"
             mkdir -p $HTTP_SERVER_LOCATION
         fi
-        cp -f $TOP_DIR/devstackubuntupreseed.cfg $HTTP_SERVER_LOCATION
+        cp -f $XENAPI_DIR/ubuntu/devstackubuntupreseed.cfg $HTTP_SERVER_LOCATION
         MIRROR=${MIRROR:-""}
         if [ -n "$MIRROR" ]; then
             sed -e "s,d-i mirror/http/hostname string .*,d-i mirror/http/hostname string $MIRROR," \
