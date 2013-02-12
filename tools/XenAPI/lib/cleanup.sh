@@ -18,12 +18,12 @@ clean_previous_runs()
 {
     CLEAN_TEMPLATES=${CLEAN_TEMPLATES:-false}
     if $CLEAN_TEMPLATES; then
-      for u in $(xe_min template-list other-config:os-vpx=true | sed -e 's/,/ /g'); do
+      for u in $(xe template-list other-config:os-vpx=true --minimal | sed -e 's/,/ /g'); do
         uninstall_template "$u"
       done
     fi
     
-    for u in $(xe_min vm-list other-config:os-vpx=true | sed -e 's/,/ /g'); do
+    for u in $(xe vm-list other-config:os-vpx=true --minimal | sed -e 's/,/ /g'); do
       uninstall "$u"
     done
 

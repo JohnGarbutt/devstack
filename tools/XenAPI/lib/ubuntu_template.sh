@@ -10,7 +10,7 @@ function wait_for_VM_to_halt() {
     echo "vncviewer -via $mgmt_ip localhost:${port:2}"
     while true
     do
-        state=$(xe_min vm-list name-label="$GUEST_NAME" power-state=halted)
+        state=$(xe vm-list name-label="$GUEST_NAME" power-state=halted --minimal)
         if [ -n "$state" ]
         then
             break
@@ -62,7 +62,7 @@ destroy_vifs()
 {
   local v="$1"
   (IFS=,
-  for vif in $(xe_min vif-list vm-uuid="$v"); do
+  for vif in $(xe vif-list vm-uuid="$v" --minimal); do
     xe vif-destroy uuid="$vif"
   done
   unset IFS)
@@ -94,10 +94,10 @@ set_memory()
 
 find_network()
 {
-  result=$(xe_min network-list bridge="$1")
+  result=$(xe network-list bridge="$1" --minimal)
   if [ "$result" = "" ]
   then
-    result=$(xe_min network-list name-label="$1")
+    result=$(xe network-list name-label="$1" --minimal)
   fi
   echo "$result"
 }
